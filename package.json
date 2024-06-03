@@ -15,7 +15,7 @@
     "app:edge-dev": "cross-env BROWSER='edge' webpack --config webpack/webpack.dev.js --watch",
     "app:firefox": "rimraf dist && cross-env BROWSER='firefox' webpack --config webpack/webpack.prod.js",
     "app:firefox-dev": "cross-env BROWSER='firefox' webpack --config webpack/webpack.dev.js --watch",
-    "watch:firefox": "pnpm app:firefox-dev & (pnpm app:firefox && web-ext run --source-dir dist)",
+    "watch:firefox": "pnpm app:firefox-dev & (sleep 2 && web-ext run --source-dir dist)",
     "test:unit": "jest",
     "lint-staged": "lint-staged",
     "test:unit-update-snapshot": "jest --updateSnapshot"
