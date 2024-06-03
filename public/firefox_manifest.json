@@ -2,7 +2,14 @@
   "name": "Contexto transletto",
   "version": "1.0",
   "description": "TODO: Write a description",
-  "permissions": ["contextMenus", "tabs", "activeTab", "scripting"],
+  "permissions": [
+    "contextMenus",
+    "tabs",
+    "activeTab",
+    "scripting",
+    "http://localhost/*",
+    "http://127.0.0.1/*"
+  ],
   "manifest_version": 2,
   "background": {
     "scripts": [

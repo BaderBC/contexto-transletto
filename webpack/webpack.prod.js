@@ -15,7 +15,7 @@ module.exports = merge(common, {
             compilerOptions: {
               dev: false
             },
-            emitCss: true,
+            emitCss: false,
             hotReload: false,
             preprocess: sveltePreprocess({ sourceMap: false })
           }

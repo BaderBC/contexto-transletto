@@ -1,4 +1,4 @@
-import TranslationModal from '../components/TranslationModal/TranslationModal.svelte';
+import TranslationModal from '../components/PopupModal.svelte';
 
 const textSelection = window.getSelection();
 const textToTranslate = textSelection.toString();

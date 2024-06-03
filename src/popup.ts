@@ -1,3 +1,4 @@
+/*
 import './assets/css/global.css';
 
 import App from './components/App/App.svelte';
@@ -15,3 +16,4 @@ const app = new App({
 });
 
 export default app;
+*/

@@ -1,4 +1,4 @@
-name: web-extension-svelte-boilerplate ci/cd
+name: contexto-transletto CI/CD
 on:
   push:
 jobs:
