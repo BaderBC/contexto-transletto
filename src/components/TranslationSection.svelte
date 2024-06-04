@@ -1,11 +1,10 @@
 <script lang="ts">
-  import { addTranslationToDeck, ContextoTranslettoSentence, isAnkiAvailable } from '../lib/anki';
+  import { addTranslationToDeck, isAnkiAvailable } from '../lib/anki';
   import { NotificationKind } from './Notification.svelte';
   import { SectionToShow } from './PopupModal.svelte';
+  import { ContextoTranslettoSentence } from '../lib/translate';
 
-  export let sentenceBeforeTheWord: string = 'Test sentence start ';
-  export let sentenceAfterTheWord: string = ' end test sentence';
-  export let wordToTranslate: string;
+  export let sentenceToTranslate: ContextoTranslettoSentence;
   export let sectionToShow: SectionToShow;
   export let showNotification: (title: string, content: string, type: NotificationKind, duration_ms?: number) => void;
 
@@ -13,6 +12,7 @@
   let ankiDroidIconUrl = browser.runtime.getURL('images/ankidroid-icon.png');
   // eslint-disable-next-line no-undef
   const googleTranslateIconUrl = browser.runtime.getURL('images/google-translate-icon.png');
+  const wordToTranslate = sentenceToTranslate.selectedPhrase;
 
   let ankiAddButtonEnable = true;
 
@@ -22,7 +22,6 @@
   }
 
   async function ankiAddCard() {
-    const sentenceToTranslate = new ContextoTranslettoSentence(sentenceBeforeTheWord, wordToTranslate, sentenceAfterTheWord);
     const sentenceTranslation = new ContextoTranslettoSentence('Przetłumaczona sentencja', wordToTranslate, 'i jej koniec');
     const foreignLanguage = 'en';
 
@@ -53,7 +52,7 @@
 </script>
 
 <p class="subtitle">Sentence to translate:</p>
-<p class="translation">{sentenceBeforeTheWord}<span>{wordToTranslate}</span>{sentenceAfterTheWord}</p>
+<p class="translation">{sentenceToTranslate.leftSide}<span>{wordToTranslate}</span>{sentenceToTranslate.rightSide}</p>
 
 <p class="subtitle">Translation:</p>
 <p class="translation">Przetłumaczona sentencja <span>{wordToTranslate}</span> i jej koniec</p>

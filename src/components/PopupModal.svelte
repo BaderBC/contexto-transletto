@@ -10,8 +10,9 @@
   import Notification, { NotificationKind, NotificationType } from './Notification.svelte';
   import { Sleep } from '../lib/utils';
   import AnkiNotAvailable from './AnkiNotAvailable.svelte';
+  import type { ContextoTranslettoSentence } from '../lib/translate';
 
-  export let wordToTranslate: string;
+  export let sentenceToTranslate: ContextoTranslettoSentence;
 
   let notification: NotificationType = null;
   let sectionToShow = SectionToShow.TRANSLATION;
@@ -28,7 +29,7 @@
   <div id="card-regular-content">
     <header>Contexto transletto</header>
     {#if (sectionToShow === SectionToShow.TRANSLATION)}
-      <TranslationSection {showNotification} {wordToTranslate} bind:sectionToShow />
+      <TranslationSection {showNotification} bind:sectionToShow {sentenceToTranslate} />
     {:else if (sectionToShow === SectionToShow.ANKI_NOT_AVAILABLE)}
       <AnkiNotAvailable bind:sectionToShow />
     {/if}

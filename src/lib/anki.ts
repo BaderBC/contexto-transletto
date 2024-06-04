@@ -1,4 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-types
+import type { ContextoTranslettoSentence } from './translate';
+
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function invoke(action, version, params = {}): Promise<Object> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -35,22 +38,6 @@ export async function ensureDeckIsCreated(foreignLanguage: string) {
   await invoke('createDeck', 6, {
     deck: `contexto-transletto::${foreignLanguage}`,
   });
-}
-
-export class ContextoTranslettoSentence {
-  private readonly leftSide: string;
-  private readonly selectedPhrase: string;
-  private readonly rightSide: string;
-
-  constructor(leftSide: string, selectedPhrase: string, rightSide: string) {
-    this.leftSide = leftSide.trim();
-    this.selectedPhrase = selectedPhrase.trim();
-    this.rightSide = rightSide.trim();
-  }
-
-  public joinMakingSelectedPhraseBold() {
-    return `${this.leftSide} <b>${this.selectedPhrase}</b> ${this.rightSide}`;
-  }
 }
 
 export async function addTranslationToDeck(
