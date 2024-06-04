@@ -1,7 +1,12 @@
 import TranslationModal from '../components/PopupModal.svelte';
+import { ContextoTranslettoSentence } from '../lib/translate';
 
 const textSelection = window.getSelection();
 const textToTranslate = textSelection.toString();
+const range = textSelection.getRangeAt(0);
+const sentenceBeforeSelection = range.startContainer.textContent.slice(0, range.startOffset);
+const sentenceAfterSelection = range.startContainer.textContent.slice(range.endOffset);
+
 const divElement = document.createElement('div');
 
 divElement.style.position = 'fixed';
@@ -25,17 +30,9 @@ document.body.appendChild(divElement);
 new TranslationModal({
   target: divElement,
   props: {
-    wordToTranslate: textToTranslate,
-  }
+    sentenceToTranslate: new ContextoTranslettoSentence(sentenceBeforeSelection, textToTranslate, sentenceAfterSelection),
+  },
 });
 
 // When we know element width, it is possible to correct it position
 divElement.style.left = `${selectionAbsoluteLeftPos - (divElement.offsetWidth / 2)}px`;
-
-//document.getElementById('home').innerHTML = 'test';
-// eslint-disable-next-line no-console
-console.log('textToTranslate: ', textToTranslate);
-getEntireSentenceOfSelectedWord();
-function getEntireSentenceOfSelectedWord() {
-  
-}
