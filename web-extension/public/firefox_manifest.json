@@ -1,16 +1,24 @@
 {
+  "manifest_version": 2,
   "name": "Contexto transletto",
   "version": "1.0",
   "description": "TODO: Write a description",
   "permissions": [
     "contextMenus",
     "tabs",
+    "identity",
     "activeTab",
     "scripting",
+    "storage",
     "http://localhost/*",
-    "http://127.0.0.1/*"
+    "http://127.0.0.1/*",
+    "https://www.googleapis.com/"
   ],
-  "manifest_version": 2,
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "contexto-transletto@bstrama.com"
+    }
+  },
   "background": {
     "scripts": [
       "background.js"
