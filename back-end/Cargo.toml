@@ -1,0 +1,21 @@
+[package]
+name = "back-end"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0.130", features = ["derive", "default"] }
+serde_json = "1.0.117"
+axum = { version = "0.7.5", features = ["default"] }
+axum-extra = { version = "0.9.3", features = ["typed-header"] }
+tokio = { version = "1.38.0", features = ["full"] }
+headers = "0.4.0"
+reqwest = { version = "0.12.4", features = ["json"] }
+anyhow = "1.0.86"
+regex = "1.10.4"
+lazy_static = "1.4.0"
+google-oauth = "1.11.0"
+dotenv = "0.15.0"
+jwt = "0.16.0"
+hmac = "0.12.1"
+sha2 = "0.10.8"
