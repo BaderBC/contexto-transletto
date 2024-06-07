@@ -1,4 +1,5 @@
-import { BACKEND_URL, CLIENT_ID } from './utils';
+// @ts-ignore
+import { BACKEND_URL, GOOGLE_OAUTH_CLIENT_ID } from '../../env';
 
 export interface LoginResponse {
   token: string;
@@ -11,7 +12,7 @@ export async function login(): Promise<LoginResponse> {
   const redirectURL = browser.identity.getRedirectURL();
 
   const responseUrl = await browser.identity.launchWebAuthFlow({
-    url: `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(redirectURL)}&scope=email`,
+    url: `https://accounts.google.com/o/oauth2/auth?client_id=${GOOGLE_OAUTH_CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(redirectURL)}&scope=email`,
     interactive: true,
   });
   const params = new URLSearchParams(responseUrl.split('#')[1]);

@@ -1,5 +1,5 @@
-import { BACKEND_URL } from './utils';
 import { getJWTToken } from './auth';
+import { BACKEND_URL } from '../../env';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace FetchAuthorized {
