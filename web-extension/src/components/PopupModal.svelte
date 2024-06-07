@@ -1,7 +1,8 @@
 <script context="module" lang="ts">
   export enum SectionToShow {
     TRANSLATION,
-    ANKI_NOT_AVAILABLE
+    ANKI_NOT_AVAILABLE,
+    LOGIN_PAGE,
   }
 </script>
 
@@ -11,11 +12,21 @@
   import { Sleep } from '../lib/utils';
   import AnkiNotAvailable from './AnkiNotAvailable.svelte';
   import type { ContextoTranslettoSentence } from '../lib/translate';
+  import LoginSection from './login/LoginSection.svelte';
+  import { isLoggedIn } from '../lib/auth';
 
   export let sentenceToTranslate: ContextoTranslettoSentence;
 
+  let headerContent = 'Contexto transletto';
   let notification: NotificationType = null;
   let sectionToShow = SectionToShow.TRANSLATION;
+  
+  isLoggedIn()
+    .then((logged) => {
+      if (!logged) {
+        sectionToShow = SectionToShow.LOGIN_PAGE;
+      }
+    });
 
   export function showNotification(title: string, content: string, kind: NotificationKind, duration_ms = 5000) {
     notification = new NotificationType(title, content, kind, duration_ms);
@@ -27,11 +38,13 @@
 
 <section id="card">
   <div id="card-regular-content">
-    <header>Contexto transletto</header>
+    <header>{headerContent}</header>
     {#if (sectionToShow === SectionToShow.TRANSLATION)}
       <TranslationSection {showNotification} bind:sectionToShow {sentenceToTranslate} />
     {:else if (sectionToShow === SectionToShow.ANKI_NOT_AVAILABLE)}
       <AnkiNotAvailable bind:sectionToShow />
+    {:else if (sectionToShow === SectionToShow.LOGIN_PAGE)}
+      <LoginSection {showNotification} bind:sectionToShow bind:headerContent />
     {/if}
   </div>
 
