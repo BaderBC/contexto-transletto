@@ -6,3 +6,6 @@ Because this is beta version:
 - Only english to polish support
 - Currently app ins't deployed
 - Only tested on firefox
+
+## Screenshots:
+![example usage screenshot](./assets/example_usage_1.png)
