@@ -3,6 +3,7 @@
   import { NotificationKind } from './Notification.svelte';
   import { SectionToShow } from './PopupModal.svelte';
   import { ContextoTranslettoSentence } from '../lib/translate';
+  import { isLoggedIn } from '../lib/auth';
 
   export let sentenceToTranslate: ContextoTranslettoSentence;
   export let sectionToShow: SectionToShow;
@@ -14,7 +15,20 @@
   const googleTranslateIconUrl = browser.runtime.getURL('images/google-translate-icon.png');
   const wordToTranslate = sentenceToTranslate.selectedPhrase;
 
+  let isTranslated = false;
   let ankiAddButtonEnable = true;
+  let translatedSentence: ContextoTranslettoSentence;
+
+  translate();
+  async function translate() {
+    try {
+      translatedSentence = await sentenceToTranslate.get_translated();
+      isTranslated = true;
+    } catch (err) {
+      console.error(err);
+      showNotification('Failed to translate', err.toString(), NotificationKind.ERROR);
+    }
+  }
 
   function openGoogleTranslate() {
     const url = `https://translate.google.com/?sl=auto&tl=pl&text=${wordToTranslate}&op=translate`;
@@ -55,7 +69,12 @@
 <p class="translation">{sentenceToTranslate.leftSide}<span>{wordToTranslate}</span>{sentenceToTranslate.rightSide}</p>
 
 <p class="subtitle">Translation:</p>
-<p class="translation">Przetłumaczona sentencja <span>{wordToTranslate}</span> i jej koniec</p>
+{#if (isTranslated)}
+  <p class="translation">{translatedSentence.leftSide}
+    <span>{translatedSentence.selectedPhrase}</span>{translatedSentence.rightSide}</p>
+{:else}
+  <p class="translation">Translating...</p>
+{/if}
 
 <hr>
 

@@ -10,7 +10,6 @@ use crate::auth::jwt_payload_from_header;
 use crate::{GEMINI_API_KEY, GEMINI_MODEL};
 
 const MAX_AI_TRANSLATE_ATTEMPTS: u32 = 3;
-const GEMINI_TIMEOUT: u64 = 5;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct ContextoTranslettoSentence {

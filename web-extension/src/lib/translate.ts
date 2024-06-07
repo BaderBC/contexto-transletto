@@ -1,3 +1,5 @@
+import { FetchAuthorized } from './fetchAuthorized';
+
 export class ContextoTranslettoSentence {
   public readonly leftSide: string;
   public readonly selectedPhrase: string;
@@ -14,7 +16,7 @@ export class ContextoTranslettoSentence {
     const rightSplit = rightSide.split(splitRegEx);
 
     const [rightSeparator] = rightSide.match(splitRegEx) || [''];
-    
+
     this.leftSide = leftSplit[leftSplit.length - 1];
     this.rightSide = rightSplit[0] + rightSeparator;
 
@@ -31,5 +33,19 @@ export class ContextoTranslettoSentence {
 
   public joinMakingSelectedPhraseBold() {
     return `${this.leftSide}<b>${this.selectedPhrase}</b>${this.rightSide}`.trim();
+  }
+  
+  public async get_translated(): Promise<ContextoTranslettoSentence> {
+    const res = await FetchAuthorized.post<any>('/translate', {
+      left_sentence_part: this.leftSide,
+      selected_phrase: this.selectedPhrase,
+      right_sentence_part: this.rightSide,
+    });
+    
+    return new ContextoTranslettoSentence(
+      res.left_sentence_part,
+      res.selected_phrase,
+      res.right_sentence_part,
+    );
   }
 }

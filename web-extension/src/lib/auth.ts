@@ -1,6 +1,4 @@
-// TODO: move to .env
-const CLIENT_ID = '815018817472-leqk8eelj2jeeia64edpqcn07rjnn7qh.apps.googleusercontent.com';
-const BACKEND_URL = 'http://localhost:3000';
+import { BACKEND_URL, CLIENT_ID } from './utils';
 
 export interface LoginResponse {
   token: string;
@@ -39,6 +37,16 @@ export async function login(): Promise<LoginResponse> {
   });
 
   return body_json;
+}
+
+export async function getJWTToken(): Promise<string> {
+  const _token = await browser.storage.local.get('jwt-token');
+  const token = _token['jwt-token'];
+  
+  if (token?.length === 0) {
+    throw new Error('You are not logged in.');
+  }
+  return token;
 }
 
 export async function logout() {
