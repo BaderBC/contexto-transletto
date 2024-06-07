@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
   export enum SectionToShow {
+    LOADING,
     TRANSLATION,
     ANKI_NOT_AVAILABLE,
     LOGIN_PAGE,
@@ -19,12 +20,14 @@
 
   let headerContent = 'Contexto transletto';
   let notification: NotificationType = null;
-  let sectionToShow = SectionToShow.TRANSLATION;
+  let sectionToShow = SectionToShow.LOADING;
   
   isLoggedIn()
     .then((logged) => {
       if (!logged) {
         sectionToShow = SectionToShow.LOGIN_PAGE;
+      } else {
+        sectionToShow = SectionToShow.TRANSLATION;
       }
     });
 
@@ -45,6 +48,8 @@
       <AnkiNotAvailable bind:sectionToShow />
     {:else if (sectionToShow === SectionToShow.LOGIN_PAGE)}
       <LoginSection {showNotification} bind:sectionToShow bind:headerContent />
+    {:else if (sectionToShow === SectionToShow.LOADING)}
+      <p>Loading...</p>
     {/if}
   </div>
 
