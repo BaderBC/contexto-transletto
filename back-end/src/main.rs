@@ -22,7 +22,7 @@ async fn main() {
         .route("/google-auth", post(auth::get_bearer_token_handler))
         .route("/translate", post(translate::translate_handler));
 
-    let listener = tokio::net::TcpListener::bind(format!("127.0.0.1:{}", PORT.to_string()))
+    let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", PORT.to_string()))
         .await
         .unwrap();
     println!("listening on {}", listener.local_addr().unwrap());

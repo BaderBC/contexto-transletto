@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Contexto transletto",
-  "version": "1.0",
-  "description": "TODO: Write a description",
+  "version": "0.1",
+  "description": "Allows you tu easily translate sentence and save that translation in your anki app as a flashcard",
   "permissions": [
     "contextMenus",
     "tabs",
@@ -12,6 +12,7 @@
     "storage",
     "http://localhost/*",
     "http://127.0.0.1/*",
+    "http://contexto-transletto.bstrama.com/*",
     "https://www.googleapis.com/"
   ],
   "browser_specific_settings": {
