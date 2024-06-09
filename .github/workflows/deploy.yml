@@ -1,0 +1,39 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  deploy-backend:
+    runs-on: self-hosted
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: 'back-end'
+      - name: Build Docker image
+        run: docker build -t contexto-transletto-backend ./back-end
+
+      - name: Stop and remove existing container
+        run: |
+          if [ $(docker ps -q -f name=contexto-transletto-backend) ]; then
+            docker stop contexto-transletto-backend
+          fi
+          if [ $(docker ps -aq -f name=contexto-transletto-backend) ]; then
+            docker rm contexto-transletto-backend
+          fi
+      - name: Run Docker container
+        shell: bash
+        env: 
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+        run: |
+          docker run -d \
+            -e GEMINI_API_KEY=$GEMINI_API_KEY \
+            -e JWT_SECRET=$JWT_SECRET \
+            -e GOOGLE_OAUTH_CLIENT_ID=$GOOGLE_OAUTH_CLIENT_ID \
+            --restart unless-stopped \
+            --name contexto-transletto-backend \
+            -p 5001:3000 contexto-transletto-backend
