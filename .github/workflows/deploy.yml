@@ -1,10 +1,69 @@
 name: Deploy
 
 on:
-  push:
-    branches: [ "master" ]
+  release:
+    types: [published]
+
+permissions:
+  contents: write
 
 jobs:
+  deploy-xpi-extension-build-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: 'web-extension'
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.2
+
+      - name: Create env.ts
+        shell: bash
+        env:
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+        run: |
+          echo "export const BACKEND_URL = 'http://contexto-transletto.bstrama.com/api'; \
+                export const GOOGLE_OAUTH_CLIENT_ID = '$GOOGLE_OAUTH_CLIENT_ID';" > ./web-extension/env.ts
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.0.0
+        with:
+          version: 9
+
+      - name: Install npm dependencies
+        run: pnpm i -C ./web-extension
+
+      - name: Build extension for firefox
+        run: pnpm -C ./web-extension app:firefox
+
+      - name: "web-ext build"
+        id: web-ext-build
+        uses: kewisch/action-web-ext@v1
+        with:
+          cmd: build
+          source: ./web-extension/dist
+          ignoreFiles: '[ "package.json","package-lock.json","yarn.lock" ]'
+
+      - name: Sign web extension
+        id: web-ext-sign
+        uses: kewisch/action-web-ext@v1
+        with:
+          cmd: sign
+          filename: "firefox-{name}-{version}.xpi"
+          source: ${{ steps.web-ext-build.outputs.target }}
+          channel: unlisted
+          apiKey: ${{ secrets.AMO_SIGN_KEY }}
+          apiSecret: ${{ secrets.AMO_SIGN_SECRET }}
+
+      - name: Upload release file
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: ${{ steps.web-ext-sign.outputs.target }}
+
   deploy-backend:
     runs-on: self-hosted
     
