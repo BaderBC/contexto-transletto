@@ -36,6 +36,7 @@ export class ContextoTranslettoSentence {
   }
   
   public async get_translated(): Promise<ContextoTranslettoSentence> {
+    // eslint-disable-next-line
     const res = await FetchAuthorized.post<any>('/translate', {
       left_sentence_part: this.leftSide,
       selected_phrase: this.selectedPhrase,

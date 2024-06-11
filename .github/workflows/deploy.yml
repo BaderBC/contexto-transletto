@@ -24,8 +24,8 @@ jobs:
         env:
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
         run: |
-          echo "export const BACKEND_URL = 'http://contexto-transletto.bstrama.com/api'; \
-                export const GOOGLE_OAUTH_CLIENT_ID = '$GOOGLE_OAUTH_CLIENT_ID';" > ./web-extension/env.ts
+          echo "BACKEND_URL=\"http://contexto-transletto.bstrama.com/api\" \n\
+                GOOGLE_OAUTH_CLIENT_ID=\"$GOOGLE_OAUTH_CLIENT_ID\" > ./web-extension/.env
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4.0.0

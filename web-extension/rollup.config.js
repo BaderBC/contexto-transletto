@@ -1,0 +1,93 @@
+import typescript from '@rollup/plugin-typescript';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import svelte from 'rollup-plugin-svelte';
+import copy from 'rollup-plugin-copy';
+import sveltePreprocess from 'svelte-preprocess';
+import dotenv from 'dotenv';
+import define from 'rollup-plugin-define';
+import { string } from 'rollup-plugin-string';
+import terser from '@rollup/plugin-terser';
+import mergeConfig from 'rollup-merge-config';
+
+const { parsed: dotEnvVariables } = dotenv.config();
+const browser = process.env.BROWSER || 'firefox';
+const isDevMode = (process.env.NODE_ENV || '').toLowerCase() !== 'production';
+
+const frontEndEnv = {
+  ...dotEnvVariables,
+  BROWSER: browser,
+  NODE_ENV: process.env.NODE_ENV,
+};
+
+/** @type {import('rollup').RollupOptions} */
+const commonRollupConfig = {
+  output: {
+    dir: './dist',
+    format: 'iife',
+  },
+  watch: {
+    exclude: 'node_modules/**',
+    include: [
+      'src/**',
+      'public/**',
+      '.env',
+    ],
+  },
+  plugins: [
+    define({
+      replacements: {
+        'process.env': '(' + JSON.stringify(frontEndEnv) + ')',
+      },
+    }),
+    string({
+      include: '**/*.txt',
+    }),
+    typescript(),
+    commonjs(),
+    resolve({
+      browser: true,
+    }),
+    svelte({
+      emitCss: false,
+      compilerOptions: {
+        dev: isDevMode,
+      },
+      preprocess: sveltePreprocess(),
+    }),
+    copy({
+      targets: [
+        { src: 'public/images', dest: 'dist' },
+        { src: 'public/popup.html', dest: 'dist' },
+        { src: `public/${browser}_manifest.json`, dest: 'dist', rename: 'manifest.json' },
+      ],
+    }),
+  ],
+};
+
+/** @type {import('rollup').RollupOptions} */
+let nodeEnvDependentConfig = {};
+
+if (!isDevMode) {
+  nodeEnvDependentConfig = {
+    plugins: [terser()],
+  };
+}
+
+const rollupConfig = mergeConfig(commonRollupConfig, nodeEnvDependentConfig);
+
+/** @type {(import('rollup').RollupOptions)[]} */
+export default [
+  {
+    input: './src/popup.ts',
+    ...rollupConfig,
+  },
+  {
+    input: `./src/background/${browser}/background.ts`,
+    ...rollupConfig,
+  },
+  {
+    input: './src/scripts/translation_modal.ts',
+    ...rollupConfig,
+  },
+];

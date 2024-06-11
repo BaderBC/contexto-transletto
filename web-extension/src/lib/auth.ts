@@ -1,5 +1,5 @@
 // @ts-ignore
-import { BACKEND_URL, GOOGLE_OAUTH_CLIENT_ID } from '../../env';
+import { BACKEND_URL, GOOGLE_OAUTH_CLIENT_ID } from '../env';
 
 export interface LoginResponse {
   token: string;
