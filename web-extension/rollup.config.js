@@ -60,6 +60,7 @@ const commonRollupConfig = {
         { src: 'public/images', dest: 'dist' },
         { src: 'public/popup.html', dest: 'dist' },
         { src: `public/${browser}_manifest.json`, dest: 'dist', rename: 'manifest.json' },
+        { src: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js', dest: 'dist' },
       ],
     }),
   ],
@@ -83,11 +84,15 @@ export default [
     ...rollupConfig,
   },
   {
-    input: `./src/background/${browser}/background.ts`,
+    input: `./src/background.ts`,
     ...rollupConfig,
   },
   {
     input: './src/scripts/translation_modal.ts',
     ...rollupConfig,
+    output: {
+      dir: './dist/scripts',
+      format: 'iife',
+    },
   },
 ];

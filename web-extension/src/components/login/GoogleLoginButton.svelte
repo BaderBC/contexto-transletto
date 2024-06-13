@@ -1,5 +1,6 @@
 <script lang="ts">
   import { NotificationKind } from '../Notification.svelte';
+  import browser from 'webextension-polyfill';
 
   export let successCallback: () => void;
   export let showNotification: (title: string, content: string, kind: NotificationKind, duration_ms?: number) => void;
@@ -7,6 +8,7 @@
   async function onClick() {
     const login_res = await browser.runtime.sendMessage({ action: 'login' });
     if (login_res.error) {
+      console.error(login_res.error);
       showNotification('Failed to login', login_res.error.toString(), NotificationKind.ERROR);
       return;
     }

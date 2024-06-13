@@ -15,13 +15,13 @@
   import type { ContextoTranslettoSentence } from '../lib/translate';
   import LoginSection from './login/LoginSection.svelte';
   import { isLoggedIn } from '../lib/auth';
-
+  
   export let sentenceToTranslate: ContextoTranslettoSentence;
 
   let headerContent = 'Contexto transletto';
   let notification: NotificationType = null;
   let sectionToShow = SectionToShow.LOADING;
-  
+
   isLoggedIn()
     .then((logged) => {
       if (!logged) {

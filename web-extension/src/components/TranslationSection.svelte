@@ -3,7 +3,7 @@
   import { NotificationKind } from './Notification.svelte';
   import { SectionToShow } from './PopupModal.svelte';
   import { ContextoTranslettoSentence } from '../lib/translate';
-  import { isLoggedIn } from '../lib/auth';
+  import browser from 'webextension-polyfill';
 
   export let sentenceToTranslate: ContextoTranslettoSentence;
   export let sectionToShow: SectionToShow;

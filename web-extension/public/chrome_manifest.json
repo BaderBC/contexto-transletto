@@ -1,24 +1,31 @@
 {
+  "manifest_version": 3,
   "name": "Contexto transletto",
-  "version": "1.0",
-  "description": "TODO: Write a description",
+  "version": "0.1.2",
+  "description": "Allows you tu easily translate sentence and save that translation in your anki app as a flashcard",
   "permissions": [
     "contextMenus",
-    "declarativeContent"
+    "tabs",
+    "identity",
+    "activeTab",
+    "scripting",
+    "storage"
   ],
-  "manifest_version": 3,
+  "host_permissions": [
+    "http://localhost/*",
+    "http://127.0.0.1/*",
+    "http://contexto-transletto.bstrama.com/*",
+    "https://www.googleapis.com/"
+  ],
   "background": {
     "service_worker": "background.js"
   },
-  "action": {
-    "default_popup": "popup.html",
-    "default_icon": {
-      "16": "images/logo/date-time-16.png",
-      "32": "images/logo/date-time-32.png",
-      "48": "images/logo/date-time-48.png",
-      "128": "images/logo/date-time-128.png"
+  "web_accessible_resources": [
+    {
+      "resources": ["images/*"],
+      "matches": ["<all_urls>"]
     }
-  },
+  ],
   "icons": {
     "16": "images/logo/date-time-16.png",
     "32": "images/logo/date-time-32.png",

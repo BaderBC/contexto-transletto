@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      webextension-polyfill:
+        specifier: ^0.12.0
+        version: 0.12.0
     devDependencies:
       '@babel/core':
         specifier: ^7.14.2
@@ -68,6 +72,9 @@ importers:
       '@types/testing-library__jest-dom':
         specifier: ^5.9.5
         version: 5.14.9
+      '@types/webextension-polyfill':
+        specifier: ^0.10.7
+        version: 0.10.7
       '@typescript-eslint/eslint-plugin':
         specifier: ^7.13.0
         version: 7.13.0(@typescript-eslint/parser@4.33.0(eslint@9.4.0)(typescript@4.9.5))(eslint@9.4.0)(typescript@4.9.5)
@@ -1313,6 +1320,9 @@ packages:
 
   '@types/testing-library__jest-dom@5.14.9':
     resolution: {integrity: sha512-FSYhIjFlfOpGSRyVoMBMuS3ws5ehFQODymf3vlI7U1K8c7PHwWwFY7VREfmsuzHSOnoKs/9/Y983ayOs7eRzqw==}
+
+  '@types/webextension-polyfill@0.10.7':
+    resolution: {integrity: sha512-10ql7A0qzBmFB+F+qAke/nP1PIonS0TXZAOMVOxEUsm+lGSW6uwVcISFNa0I4Oyj0884TZVWGGMIWeXOVSNFHw==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -5354,6 +5364,9 @@ packages:
     resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
     engines: {node: '>= 8'}
 
+  webextension-polyfill@0.12.0:
+    resolution: {integrity: sha512-97TBmpoWJEE+3nFBQ4VocyCdLKfw54rFaJ6EVQYLBCXqCIpLSZkwGgASpv4oPt9gdKCJ80RJlcmNzNn008Ag6Q==}
+
   webidl-conversions@5.0.0:
     resolution: {integrity: sha512-VlZwKPCkYKxQgeSbH5EyngOmRp7Ww7I9rQLERETtf5ofd9pGeswWiOtogpEO850jziPRarreGxn5QIiTqpb2wA==}
     engines: {node: '>=8'}
@@ -6944,6 +6957,8 @@ snapshots:
   '@types/testing-library__jest-dom@5.14.9':
     dependencies:
       '@types/jest': 26.0.24
+
+  '@types/webextension-polyfill@0.10.7': {}
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -9463,7 +9478,11 @@ snapshots:
       pretty-format: 26.6.2
       throat: 5.0.0
     transitivePeerDependencies:
+      - bufferutil
+      - canvas
       - supports-color
+      - ts-node
+      - utf-8-validate
 
   jest-leak-detector@26.6.2:
     dependencies:
@@ -11671,6 +11690,8 @@ snapshots:
       - utf-8-validate
 
   web-streams-polyfill@3.3.3: {}
+
+  webextension-polyfill@0.12.0: {}
 
   webidl-conversions@5.0.0: {}
 

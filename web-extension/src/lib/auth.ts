@@ -1,5 +1,6 @@
 // @ts-ignore
 import { BACKEND_URL, GOOGLE_OAUTH_CLIENT_ID } from '../env';
+import browser from 'webextension-polyfill';
 
 export interface LoginResponse {
   token: string;
@@ -16,7 +17,6 @@ export async function login(): Promise<LoginResponse> {
     interactive: true,
   });
   const params = new URLSearchParams(responseUrl.split('#')[1]);
-
   const backendRes = await fetch(`${BACKEND_URL}/google-auth`, {
     method: 'POST',
     headers: {
