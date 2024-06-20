@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   release:
-    types: [published]
+    types: [ published ]
 
 permissions:
   contents: write
@@ -19,13 +19,14 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.2
 
-      - name: Create env.ts
+      - name: Create .env
         shell: bash
         env:
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          BACKEND_URL: ${{ env.BACKEND_URL }}
         run: |
-          echo "BACKEND_URL=\"http://contexto-transletto.bstrama.com/api\" \n\
-                GOOGLE_OAUTH_CLIENT_ID=\"$GOOGLE_OAUTH_CLIENT_ID\" > ./web-extension/.env
+          echo "BACKEND_URL=\"$BACKEND_URL\" \n\
+                GOOGLE_OAUTH_CLIENT_ID=\"$GOOGLE_OAUTH_CLIENT_ID\"" > ./web-extension/.env
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4.0.0
@@ -57,13 +58,77 @@ jobs:
           apiKey: ${{ secrets.AMO_SIGN_KEY }}
           apiSecret: ${{ secrets.AMO_SIGN_SECRET }}
 
+      - name: Rename release file
+        shell: bash
+        env:
+          OLD_FILE_NAME: ${{ steps.web-ext-sign.outputs.target }}
+          RELEASE_NAME: firefox-extension-${{ github.event.release.name }}.xpi
+        run: mv "${OLD_FILE_NAME}" "./web-extension/${RELEASE_NAME}"
+
       - name: Upload release file
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: ${{ steps.web-ext-sign.outputs.target }}
+          files: ./web-extension/firefox-extension-${{ github.event.release.name }}.xpi
 
+  deploy-crx-extension-build-file:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: 'web-extension'
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.2
+
+      - name: Create .env
+        shell: bash
+        env:
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          BACKEND_URL: ${{ env.BACKEND_URL }}
+        run: |
+          echo "BACKEND_URL=\"$BACKEND_URL\" \n\
+                GOOGLE_OAUTH_CLIENT_ID=\"$GOOGLE_OAUTH_CLIENT_ID\"" > ./web-extension/.env
+
+      - name: Setup chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.0.0
+        with:
+          version: 9
+
+      - name: Install npm dependencies
+        run: pnpm i -C ./web-extension
+
+      - name: Build extension for chrome
+        run: pnpm -C ./web-extension app:chrome
+
+      - name: Create chrome-extension-key.pem file
+        shell: bash
+        env:
+          CHROME_PACK_EXTENSION_KEY: ${{ secrets.CHROME_PACK_EXTENSION_KEY }}
+        run: echo "$CHROME_PACK_EXTENSION_KEY" > ./web-extension/chrome-extension-key.pem
+      
+      - name: Pack chrome extension
+        shell: bash
+        run: chromium-browser --pack-extension=./web-extension/dist --pack-extension-key=./web-extension/chrome-extension-key.pem
+        
+      - name: Rename release file
+        shell: bash
+        env:
+          RELEASE_NAME: chrome-extension-${{ github.event.release.name }}.crx
+        run: mv ./web-extension/dist.crx "./web-extension/${RELEASE_NAME}"
+
+      - name: Upload release file
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: ./web-extension/chrome-extension-${{ github.event.release.name }}.crx
+      
   deploy-backend:
     runs-on: self-hosted
     
@@ -84,7 +149,7 @@ jobs:
           fi
       - name: Run Docker container
         shell: bash
-        env: 
+        env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}

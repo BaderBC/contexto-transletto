@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Contexto transletto",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Allows you tu easily translate sentence and save that translation in your anki app as a flashcard",
   "permissions": [
     "contextMenus",
@@ -27,9 +27,6 @@
     "persistent": false
   },
   "icons": {
-    "16": "images/logo/date-time-16.png",
-    "32": "images/logo/date-time-32.png",
-    "48": "images/logo/date-time-48.png",
-    "128": "images/logo/date-time-128.png"
+    "128": "images/logo/logo-128.png"
   }
 }
