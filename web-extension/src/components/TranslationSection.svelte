@@ -2,7 +2,7 @@
   import { addTranslationToDeck, isAnkiAvailable } from '../lib/anki';
   import { NotificationKind } from './Notification.svelte';
   import { SectionToShow } from './PopupModal.svelte';
-  import { ContextoTranslettoSentence } from '../lib/translate';
+  import type { ContextoTranslettoSentence } from '../lib/translate';
   import browser from 'webextension-polyfill';
 
   export let sentenceToTranslate: ContextoTranslettoSentence;
@@ -36,15 +36,19 @@
   }
 
   async function ankiAddCard() {
-    const sentenceTranslation = new ContextoTranslettoSentence('Przetłumaczona sentencja', wordToTranslate, 'i jej koniec');
     const foreignLanguage = 'en';
+    if (!isTranslated) {
+      showNotification('Translation not available', 'Please wait for the translation to finish', NotificationKind.ERROR);
+      return;
+    }
 
     ankiAddButtonEnable = false;
     const ankiDroidIconUrlCopy: string = ankiDroidIconUrl;
     ankiDroidIconUrl = browser.runtime.getURL('images/loader.svg');
 
     try {
-      await addTranslationToDeck(sentenceToTranslate, sentenceTranslation, foreignLanguage);
+      // At this point we are sure that the translation is available
+      await addTranslationToDeck(sentenceToTranslate, translatedSentence, foreignLanguage);
       ankiDroidIconUrl = browser.runtime.getURL('images/check-mark-icon.svg');
     } catch (err) {
       if (!await isAnkiAvailable()) {
@@ -79,7 +83,7 @@
 <hr>
 
 <aside>
-  <button on:click={ankiAddCard} disabled="{!ankiAddButtonEnable}" class="btn" id="anki-add"
+  <button on:click={ankiAddCard} disabled="{!(ankiAddButtonEnable && isTranslated)}" class="btn" id="anki-add"
           style="--iconUrl: url({ankiDroidIconUrl});">Add to Anki
   </button>
   <button on:click={openGoogleTranslate} class="btn" style="--iconUrl: url({googleTranslateIconUrl});">See more
