@@ -23,10 +23,11 @@ jobs:
         shell: bash
         env:
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
-          BACKEND_URL: ${{ env.BACKEND_URL }}
+          BACKEND_URL: ${{ vars.BACKEND_URL }}
         run: |
-          echo "BACKEND_URL=\"$BACKEND_URL\" \n\
-                GOOGLE_OAUTH_CLIENT_ID=\"$GOOGLE_OAUTH_CLIENT_ID\"" > ./web-extension/.env
+          touch ./web-extension/.env
+          echo "BACKEND_URL=$BACKEND_URL" >> ./web-extension/.env
+          echo "GOOGLE_OAUTH_CLIENT_ID=$GOOGLE_OAUTH_CLIENT_ID" >> ./web-extension/.env
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4.0.0
@@ -62,7 +63,7 @@ jobs:
         shell: bash
         env:
           OLD_FILE_NAME: ${{ steps.web-ext-sign.outputs.target }}
-          RELEASE_NAME: firefox-extension-${{ github.event.release.name }}.xpi
+          RELEASE_NAME: firefox-extension-${{ github.event.release.tag_name }}.xpi
         run: mv "${OLD_FILE_NAME}" "./web-extension/${RELEASE_NAME}"
 
       - name: Upload release file
@@ -70,7 +71,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: ./web-extension/firefox-extension-${{ github.event.release.name }}.xpi
+          files: ./web-extension/firefox-extension-${{ github.event.release.tag_name }}.xpi
 
   deploy-crx-extension-build-file:
     runs-on: ubuntu-latest
@@ -87,10 +88,11 @@ jobs:
         shell: bash
         env:
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
-          BACKEND_URL: ${{ env.BACKEND_URL }}
+          BACKEND_URL: ${{ vars.BACKEND_URL }}
         run: |
-          echo "BACKEND_URL=\"$BACKEND_URL\" \n\
-                GOOGLE_OAUTH_CLIENT_ID=\"$GOOGLE_OAUTH_CLIENT_ID\"" > ./web-extension/.env
+          touch ./web-extension/.env
+          echo "BACKEND_URL=$BACKEND_URL" >> ./web-extension/.env
+          echo "GOOGLE_OAUTH_CLIENT_ID=$GOOGLE_OAUTH_CLIENT_ID" >> ./web-extension/.env
 
       - name: Setup chrome
         uses: browser-actions/setup-chrome@v1
@@ -119,7 +121,7 @@ jobs:
       - name: Rename release file
         shell: bash
         env:
-          RELEASE_NAME: chrome-extension-${{ github.event.release.name }}.crx
+          RELEASE_NAME: chrome-extension-${{ github.event.release.tag_name }}.crx
         run: mv ./web-extension/dist.crx "./web-extension/${RELEASE_NAME}"
 
       - name: Upload release file
@@ -127,7 +129,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: ./web-extension/chrome-extension-${{ github.event.release.name }}.crx
+          files: ./web-extension/chrome-extension-${{ github.event.release.tag_name }}.crx
       
   deploy-backend:
     runs-on: self-hosted
