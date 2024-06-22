@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { SectionToShow } from '../PopupModal.svelte';
   import GoogleLoginButton from './GoogleLoginButton.svelte';
   import type { NotificationKind } from '../Notification.svelte';
+  import { navigate } from '../router/navigationStore';
 
-  export let sectionToShow: SectionToShow;
   export let headerContent: string;
   export let showNotification: (title: string, content: string, kind: NotificationKind, duration_ms?: number) => void;
   
@@ -12,7 +11,7 @@
   
   function onLoginSuccess() {
     headerContent = headerContentDefault;
-    sectionToShow = SectionToShow.TRANSLATION;
+    navigate('/');
   }
 </script>
 

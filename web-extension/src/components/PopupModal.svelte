@@ -1,12 +1,3 @@
-<script context="module" lang="ts">
-  export enum SectionToShow {
-    LOADING,
-    TRANSLATION,
-    ANKI_NOT_AVAILABLE,
-    LOGIN_PAGE,
-  }
-</script>
-
 <script lang="ts">
   import TranslationSection from './TranslationSection.svelte';
   import Notification, { NotificationKind, NotificationType } from './Notification.svelte';
@@ -15,21 +6,16 @@
   import type { ContextoTranslettoSentence } from '../lib/translate';
   import LoginSection from './login/LoginSection.svelte';
   import { isLoggedIn } from '../lib/auth';
-  
+  import SettingsSection from './SettingsSection.svelte';
+  import { onMount } from 'svelte';
+  import Route from './router/Route.svelte';
+  import { navigate } from './router/navigationStore';
+  import './app.pcss';
+
   export let sentenceToTranslate: ContextoTranslettoSentence;
 
   let headerContent = 'Contexto transletto';
   let notification: NotificationType = null;
-  let sectionToShow = SectionToShow.LOADING;
-
-  isLoggedIn()
-    .then((logged) => {
-      if (!logged) {
-        sectionToShow = SectionToShow.LOGIN_PAGE;
-      } else {
-        sectionToShow = SectionToShow.TRANSLATION;
-      }
-    });
 
   export function showNotification(title: string, content: string, kind: NotificationKind, duration_ms = 5000) {
     notification = new NotificationType(title, content, kind, duration_ms);
@@ -37,20 +23,35 @@
     Sleep.ms(duration_ms)
       .then(() => notification = null);
   }
+
+  onMount(async () => {
+    if (!await isLoggedIn()) {
+      navigate('/login');
+      return;
+    }
+
+    navigate('/settings');
+  });
 </script>
 
 <section id="card">
   <div id="card-regular-content">
     <header>{headerContent}</header>
-    {#if (sectionToShow === SectionToShow.TRANSLATION)}
-      <TranslationSection {showNotification} bind:sectionToShow {sentenceToTranslate} />
-    {:else if (sectionToShow === SectionToShow.ANKI_NOT_AVAILABLE)}
-      <AnkiNotAvailable bind:sectionToShow />
-    {:else if (sectionToShow === SectionToShow.LOGIN_PAGE)}
-      <LoginSection {showNotification} bind:sectionToShow bind:headerContent />
-    {:else if (sectionToShow === SectionToShow.LOADING)}
+    <Route path="/">
+      <TranslationSection {showNotification} {sentenceToTranslate} />
+    </Route>
+    <Route path="/settings">
+      <SettingsSection bind:headerContent />
+    </Route>
+    <Route path="/anki-not-available">
+      <AnkiNotAvailable />
+    </Route>
+    <Route path="/login">
+      <LoginSection {showNotification} bind:headerContent />
+    </Route>
+    <Route path="/loading">
       <p>Loading...</p>
-    {/if}
+    </Route>
   </div>
 
   {#if (notification)}

@@ -1,11 +1,5 @@
 <script lang="ts">
-  import { SectionToShow } from './PopupModal.svelte';
-
-  export let sectionToShow: SectionToShow;
-  
-  function returnToTranslationPage() {
-    sectionToShow = SectionToShow.TRANSLATION;
-  }
+  import { navigate } from './router/navigationStore';
 </script>
 
 <p>Hi!<br/>Your anki-connect is not properly configured or anki desktop is not running.
@@ -18,4 +12,4 @@
   contexto-transletto repository will have anki-connect configuration tutorial :)
 </p>
 
-<button on:click={returnToTranslationPage}>Return to translation page</button>
+<button on:click={() => navigate('/')}>Return to translation page</button>

@@ -9,6 +9,7 @@ import define from 'rollup-plugin-define';
 import { string } from 'rollup-plugin-string';
 import terser from '@rollup/plugin-terser';
 import mergeConfig from 'rollup-merge-config';
+import postcss from 'rollup-plugin-postcss';
 
 const { parsed: dotEnvVariables } = dotenv.config();
 const browser = process.env.BROWSER || 'firefox';
@@ -47,6 +48,10 @@ const commonRollupConfig = {
     commonjs(),
     resolve({
       browser: true,
+    }),
+    postcss({
+      extract: false,
+      modules: true,
     }),
     svelte({
       emitCss: false,

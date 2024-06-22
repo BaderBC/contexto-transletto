@@ -1,12 +1,11 @@
 <script lang="ts">
   import { addTranslationToDeck, isAnkiAvailable } from '../lib/anki';
   import { NotificationKind } from './Notification.svelte';
-  import { SectionToShow } from './PopupModal.svelte';
   import type { ContextoTranslettoSentence } from '../lib/translate';
   import browser from 'webextension-polyfill';
+  import { navigate } from './router/navigationStore';
 
   export let sentenceToTranslate: ContextoTranslettoSentence;
-  export let sectionToShow: SectionToShow;
   export let showNotification: (title: string, content: string, type: NotificationKind, duration_ms?: number) => void;
 
   // eslint-disable-next-line no-undef
@@ -20,6 +19,7 @@
   let translatedSentence: ContextoTranslettoSentence;
 
   translate();
+
   async function translate() {
     try {
       translatedSentence = await sentenceToTranslate.get_translated();
@@ -57,7 +57,7 @@
           'Please try starting AnkiDroid or install anki-connect plugin',
           NotificationKind.ERROR,
         );
-        sectionToShow = SectionToShow.ANKI_NOT_AVAILABLE;
+        navigate('/anki-not-available');
         return;
       }
 
