@@ -38,6 +38,7 @@ const commonRollupConfig = {
   plugins: [
     define({
       replacements: {
+        // Brackets allows getting properties from object (e.g. process.env.NODE_ENV)
         'process.env': '(' + JSON.stringify(frontEndEnv) + ')',
       },
     }),
@@ -51,6 +52,8 @@ const commonRollupConfig = {
     }),
     postcss({
       extract: false,
+      minimize: !isDevMode,
+      sourceMap: isDevMode,
       modules: true,
     }),
     svelte({
@@ -58,7 +61,9 @@ const commonRollupConfig = {
       compilerOptions: {
         dev: isDevMode,
       },
-      preprocess: sveltePreprocess(),
+      preprocess: sveltePreprocess({
+        postcss: true,
+      }),
     }),
     copy({
       targets: [
