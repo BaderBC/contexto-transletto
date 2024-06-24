@@ -1,6 +1,5 @@
 import TranslationModal from '../components/PopupModal.svelte';
 import { ContextoTranslettoSentence } from '../lib/translate';
-import '../components/app.pcss';
 
 const textSelection = window.getSelection();
 const textToTranslate = textSelection.toString();

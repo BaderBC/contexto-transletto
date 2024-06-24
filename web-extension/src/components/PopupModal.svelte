@@ -6,11 +6,10 @@
   import type { ContextoTranslettoSentence } from '../lib/translate';
   import LoginSection from './login/LoginSection.svelte';
   import { isLoggedIn } from '../lib/auth';
-  import SettingsSection from './SettingsSection.svelte';
+  import SettingsSection from './settings/SettingsSection.svelte';
   import { onMount } from 'svelte';
   import Route from './router/Route.svelte';
   import { navigate } from './router/navigationStore';
-  import './app.pcss';
 
   export let sentenceToTranslate: ContextoTranslettoSentence;
 

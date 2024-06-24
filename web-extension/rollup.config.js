@@ -10,6 +10,7 @@ import { string } from 'rollup-plugin-string';
 import terser from '@rollup/plugin-terser';
 import mergeConfig from 'rollup-merge-config';
 import postcss from 'rollup-plugin-postcss';
+import css from 'rollup-plugin-css-only';
 
 const { parsed: dotEnvVariables } = dotenv.config();
 const browser = process.env.BROWSER || 'firefox';
@@ -50,20 +51,19 @@ const commonRollupConfig = {
     resolve({
       browser: true,
     }),
-    postcss({
-      extract: false,
-      minimize: !isDevMode,
-      sourceMap: isDevMode,
-      modules: true,
-    }),
     svelte({
       emitCss: false,
       compilerOptions: {
         dev: isDevMode,
       },
-      preprocess: sveltePreprocess({
-        postcss: true,
-      }),
+      preprocess: sveltePreprocess(),
+    }),
+    postcss({
+      extract: false,
+      minimize: !isDevMode,
+    }),
+    css({
+      output: false,
     }),
     copy({
       targets: [

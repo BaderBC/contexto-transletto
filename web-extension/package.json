@@ -71,6 +71,7 @@
     "rollup": "^4.18.0",
     "rollup-merge-config": "^0.0.12",
     "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-css-only": "^4.5.2",
     "rollup-plugin-define": "^1.0.1",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-string": "^3.0.0",
