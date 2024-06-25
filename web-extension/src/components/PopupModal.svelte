@@ -8,8 +8,8 @@
   import { isLoggedIn } from '../lib/auth';
   import SettingsSection from './settings/SettingsSection.svelte';
   import { onMount } from 'svelte';
-  import Route from './router/Route.svelte';
-  import { navigate } from './router/navigationStore';
+  import Route from './Route.svelte';
+  import { navigate } from './stores/navigationStore';
 
   export let sentenceToTranslate: ContextoTranslettoSentence;
 

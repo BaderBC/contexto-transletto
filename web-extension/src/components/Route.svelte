@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { currentPath } from './navigationStore';
+  import { currentPath } from './stores/navigationStore';
 
   export let path: string;
 </script>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { navigate } from './router/navigationStore';
+  import { navigate } from './stores/navigationStore';
 </script>
 
 <p>Hi!<br/>Your anki-connect is not properly configured or anki desktop is not running.

@@ -3,7 +3,7 @@
   import { NotificationKind } from './Notification.svelte';
   import type { ContextoTranslettoSentence } from '../lib/translate';
   import browser from 'webextension-polyfill';
-  import { navigate } from './router/navigationStore';
+  import { navigate } from './stores/navigationStore';
 
   export let sentenceToTranslate: ContextoTranslettoSentence;
   export let showNotification: (title: string, content: string, type: NotificationKind, duration_ms?: number) => void;

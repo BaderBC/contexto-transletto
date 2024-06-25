@@ -22,7 +22,7 @@
     ],
     "paths": {
       "$lib": ["./src/lib/svelte"],
-      "$lib/*": ["./src/lib/svelte/*"],
+      "$lib/*": ["./src/lib/svelte/*"]
     }
   },
 }

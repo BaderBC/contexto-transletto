@@ -1,7 +1,7 @@
 <script lang="ts">
   import GoogleLoginButton from './GoogleLoginButton.svelte';
   import type { NotificationKind } from '../Notification.svelte';
-  import { navigate } from '../router/navigationStore';
+  import { navigate } from '../stores/navigationStore';
 
   export let headerContent: string;
   export let showNotification: (title: string, content: string, kind: NotificationKind, duration_ms?: number) => void;

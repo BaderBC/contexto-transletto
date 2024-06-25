@@ -50,6 +50,8 @@ const commonRollupConfig = {
     commonjs(),
     resolve({
       browser: true,
+      dedupe: ['svelte'],
+      exportConditions: ['svelte'],
     }),
     svelte({
       emitCss: false,
