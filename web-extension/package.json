@@ -97,13 +97,11 @@
   },
   "keywords": [
     "chrome extension",
-    "microsoft edge extension",
     "firefox addon",
     "web extension",
     "typescript",
     "ts",
-    "jest",
-    "sinon"
+    "jest"
   ],
   "repository": {
     "type": "git",
