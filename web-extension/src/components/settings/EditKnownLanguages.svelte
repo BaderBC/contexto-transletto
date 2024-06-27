@@ -6,7 +6,6 @@
 
 <script lang="ts">
   import '../app.pcss';
-  import { Input } from '$lib/ui/input';
   import { Label } from '$lib/ui/label';
   import Combobox from './Combobox.svelte';
   import { LANGUAGE_LEVELS, SUPPORTED_LANGUAGES } from './constants';
@@ -14,6 +13,7 @@
 
   export let namesOfSelectedLanguages: string[];
   export let knownLanguages: Language[];
+  export let resetSelection: () => void;
 
   const languageLevels = LANGUAGE_LEVELS.map((l) => ({ label: l, value: l }));
   const supportedLanguages = SUPPORTED_LANGUAGES.map((l) => ({ label: l, value: l }));
@@ -39,4 +39,5 @@
   <Label class="mt-4">Selected {namesOfSelectedLanguages.length} languages</Label>
 {/if}
 
+<Button on:click={resetSelection} class="bg-neutral-500 mt-4">Reset</Button>
 <Button variant="destructive">Delete</Button>

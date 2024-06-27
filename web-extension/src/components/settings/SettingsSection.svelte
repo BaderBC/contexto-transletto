@@ -26,6 +26,13 @@
       namesOfSelectedLanguages.push(e.id);
     });
   }
+
+  function resetSelection() {
+    namesOfSelectedLanguages = [];
+    document.querySelectorAll('input[name="known-languages"]:checked').forEach((e: HTMLInputElement) => {
+      e.checked = false;
+    });
+  }
 </script>
 
 <main>
@@ -40,7 +47,7 @@
     {/each}
   </div>
   {#if (namesOfSelectedLanguages.length > 0)}
-    <EditKnownLanguages bind:knownLanguages {namesOfSelectedLanguages}/>
+    <EditKnownLanguages bind:knownLanguages {namesOfSelectedLanguages} {resetSelection}/>
   {:else}
     <!-- Here we will put form for adding a new languages -->
   {/if}
