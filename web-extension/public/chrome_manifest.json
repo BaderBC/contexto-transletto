@@ -17,6 +17,9 @@
     "http://contexto-transletto.bstrama.com/*",
     "https://www.googleapis.com/"
   ],
+  "action": {
+    "default_popup": "popup.html"
+  },
   "background": {
     "service_worker": "background.js"
   },

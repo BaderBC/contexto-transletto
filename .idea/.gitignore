@@ -3,3 +3,6 @@
 /workspace.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+
+# I have done some leetcode with this project opened and it created such unwanted folder:
+/leetcode/

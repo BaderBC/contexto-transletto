@@ -1,0 +1,25 @@
+# This file is used only for development
+
+version: '3'
+
+services:
+  db:
+    image: postgres:16
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: contexto-transletto
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    network_mode: host
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - DEV_MODE=true
+    command: cargo watch -x run
+    network_mode: host
+    env_file:
+      - .env
