@@ -1,13 +1,8 @@
 <script lang="ts">
   import SettingsSection from '../settings/SettingsSection.svelte';
+  import CardWrapper from '../../CardWrapper.svelte';
 </script>
 
-<main>
+<CardWrapper>
   <SettingsSection />
-</main>
-
-<style>
-  main {
-      width: 300px;
-  }
-</style>
+</CardWrapper>

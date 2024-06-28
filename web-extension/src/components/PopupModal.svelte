@@ -10,6 +10,7 @@
   import { onMount } from 'svelte';
   import Route from './Route.svelte';
   import { navigate } from './stores/navigationStore';
+  import CardWrapper from '../CardWrapper.svelte';
 
   export let sentenceToTranslate: ContextoTranslettoSentence;
 
@@ -33,30 +34,28 @@
   });
 </script>
 
-<section id="card">
-  <div id="card-regular-content">
-    <header>{headerContent}</header>
-    <Route path="/">
-      <TranslationSection {showNotification} {sentenceToTranslate} />
-    </Route>
-    <Route path="/settings">
-      <SettingsSection bind:headerContent />
-    </Route>
-    <Route path="/anki-not-available">
-      <AnkiNotAvailable />
-    </Route>
-    <Route path="/login">
-      <LoginSection {showNotification} bind:headerContent />
-    </Route>
-    <Route path="/loading">
-      <p>Loading...</p>
-    </Route>
-  </div>
-
+<CardWrapper>
+  <header>{headerContent}</header>
+  <Route path="/">
+    <TranslationSection {showNotification} {sentenceToTranslate} />
+  </Route>
+  <Route path="/settings">
+    <SettingsSection bind:headerContent />
+  </Route>
+  <Route path="/anki-not-available">
+    <AnkiNotAvailable />
+  </Route>
+  <Route path="/login">
+    <LoginSection {showNotification} bind:headerContent />
+  </Route>
+  <Route path="/loading">
+    <p>Loading...</p>
+  </Route>
+  
   {#if (notification)}
-    <Notification {notification} />
+    <Notification slot="notification" {notification} />
   {/if}
-</section>
+</CardWrapper>
 
 <style lang="scss">
   @use "src/assets/css/variables";
@@ -67,22 +66,5 @@
     font-size: 1.5rem;
     font-weight: 1000;
     color: #333;
-  }
-
-  #card-regular-content {
-    padding: 15px;
-  }
-
-  #card-regular-content {
-    background: variables.$popup-modal-bg-color;
-  }
-
-  #card {
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(7px);
-    -webkit-backdrop-filter: blur(7px);
-    border: 2px solid variables.$popup-modal-bg-color;
   }
 </style>
