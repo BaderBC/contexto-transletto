@@ -1,0 +1,4 @@
+[submodule "web-extension/src/lib/rollup-plugin-rust"]
+	path = web-extension/src/lib/rollup-plugin-rust
+	url = https://github.com/BaderBC/rollup-plugin-rust
+	branch = js-transpiler-feature

@@ -8,15 +8,15 @@
   import '../app.pcss';
   import { Label } from '$lib/ui/label';
   import Combobox from './Combobox.svelte';
-  import { LANGUAGE_LEVELS, SUPPORTED_LANGUAGES } from './constants';
   import { Button } from '$lib/ui/button';
+  import { constants } from '../../lib/rust-common-binding';
 
   export let namesOfSelectedLanguages: string[];
   export let knownLanguages: Language[];
   export let resetSelection: () => void;
-
-  const languageLevels = LANGUAGE_LEVELS.map((l) => ({ label: l, value: l }));
-  const supportedLanguages = SUPPORTED_LANGUAGES.map((l) => ({ label: l, value: l }));
+ 
+  const languageLevels = constants.LANGUAGES_LEVELS.map((l) => ({ label: l, value: l }));
+  const supportedLanguages = constants.SUPPORTED_LANGUAGES.map((l) => ({ label: l, value: l }));
 </script>
 
 {#if (namesOfSelectedLanguages.length === 1)}

@@ -29,6 +29,9 @@ importers:
       tailwind-variants:
         specifier: ^0.2.1
         version: 0.2.1(tailwindcss@3.4.4)
+      webassemblyjs:
+        specifier: ^1.12.1
+        version: 1.12.1
       webextension-polyfill:
         specifier: ^0.12.0
         version: 0.12.0
@@ -102,6 +105,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^4.23.0
         version: 4.33.0(eslint@9.4.0)(typescript@4.9.5)
+      '@wasm-tool/rollup-plugin-rust':
+        specifier: link:src/lib/rollup-plugin-rust
+        version: link:src/lib/rollup-plugin-rust
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
@@ -1509,6 +1515,18 @@ packages:
   '@webassemblyjs/helper-buffer@1.12.1':
     resolution: {integrity: sha512-nzJwQw99DNDKr9BVCOZcLuJJUlqkJh+kVzVl6Fmq/tI5ZtEyWT1KZMyOXltXLZJmDtvLCDgwsyrkohEtopTXCw==}
 
+  '@webassemblyjs/helper-code-frame@1.12.1':
+    resolution: {integrity: sha512-qQlzXxLvop45thG6gyqgJWyQ43H+sgFXZB7fF2BqmZiOIw4L7iGLYl5Ft8iizLpUfswJB/1qqZ2X0N2oYrLVHQ==}
+
+  '@webassemblyjs/helper-compiler@1.12.1':
+    resolution: {integrity: sha512-tbMRKD04uUKW93ePzIOiwWWYlnKBw/Qh3oL/XFmlwOiOpCk5IyBva9bnpqf3PNcv5esQUFfjCFjBwcQ0IpNU7Q==}
+
+  '@webassemblyjs/helper-flatten-ast@1.12.1':
+    resolution: {integrity: sha512-6ILHi4SWzSuFOVCC6IrfOkbGuGx+kB68h9l2wC5yr8exRLQ7B5Gx9+V5tjoeclqvTl1fjwhHnclwnuZt8PZBMA==}
+
+  '@webassemblyjs/helper-fsm@1.11.6':
+    resolution: {integrity: sha512-W628D2rPrc9fSsBZw3DJcyQRakZvKPOON6vRUYuDe8nNUOPnFUtZ6duhKHbkMcZPOB/m5KC1QIZCs2Dujoxd2g==}
+
   '@webassemblyjs/helper-numbers@1.11.6':
     resolution: {integrity: sha512-vUIhZ8LZoIWHBohiEObxVm6hwP034jwmc9kuq5GdHZH0wiLVLIPcMCdpJzG4C11cHoQ25TFIQj9kaVADVX7N3g==}
 
@@ -1527,6 +1545,9 @@ packages:
   '@webassemblyjs/utf8@1.11.6':
     resolution: {integrity: sha512-vtXf2wTQ3+up9Zsg8sa2yWiQpzSsMyXj0qViVP6xKGCUT8p8YJ6HqI7l5eCnWx1T/FYdsv07HQs2wTFbbof/RA==}
 
+  '@webassemblyjs/validation@1.12.1':
+    resolution: {integrity: sha512-9CJVONWZzq5ff3jR1Gxq02TIlopzh2dqKkO3/JmU/HcTghMg2kxkeCs29SIip063ghggSe10t9EizBlVm+HfLA==}
+
   '@webassemblyjs/wasm-edit@1.12.1':
     resolution: {integrity: sha512-1DuwbVvADvS5mGnXbE+c9NfA8QRcZ6iKquqjjmR10k6o+zzsRVesil54DKexiowcFCPdr/Q0qaMgB01+SQ1u6g==}
 
@@ -1538,6 +1559,9 @@ packages:
 
   '@webassemblyjs/wasm-parser@1.12.1':
     resolution: {integrity: sha512-xikIi7c2FHXysxXe3COrVUPSheuBtpcfhbpFj4gmu7KRLYOzANztwUU0IbsqvMqzuNK2+glRGWCEqZo1WCLyAQ==}
+
+  '@webassemblyjs/wast-parser@1.12.1':
+    resolution: {integrity: sha512-a6IzWNTleZjtKsLfl1juHz6/f3vzEWztI/QJoGVnj/3uaSFOU2exg5IQeFXnfIsgxBbEy/9TbVRfMctlIUAiOw==}
 
   '@webassemblyjs/wast-printer@1.12.1':
     resolution: {integrity: sha512-+X4WAlOisVWQMikjbcvY2e0rwPsKQ9F688lksZhBcPycBBuii3O7m8FACbDMWDojpAqvjIncrG8J0XHKyQfVeA==}
@@ -5959,6 +5983,9 @@ packages:
     resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
     engines: {node: '>= 8'}
 
+  webassemblyjs@1.12.1:
+    resolution: {integrity: sha512-5eIlLIf+uIx+dJm8x8ILOfTn97gu9Abz6SOz6yWhJfCNZogRdIl4KR7Zv6I34tLtvMY7CcKk0u5aP4LoDVdG6Q==}
+
   webextension-polyfill@0.12.0:
     resolution: {integrity: sha512-97TBmpoWJEE+3nFBQ4VocyCdLKfw54rFaJ6EVQYLBCXqCIpLSZkwGgASpv4oPt9gdKCJ80RJlcmNzNn008Ag6Q==}
 
@@ -7767,6 +7794,21 @@ snapshots:
 
   '@webassemblyjs/helper-buffer@1.12.1': {}
 
+  '@webassemblyjs/helper-code-frame@1.12.1':
+    dependencies:
+      '@webassemblyjs/wast-printer': 1.12.1
+
+  '@webassemblyjs/helper-compiler@1.12.1':
+    dependencies:
+      '@webassemblyjs/ast': 1.12.1
+      '@webassemblyjs/helper-flatten-ast': 1.12.1
+
+  '@webassemblyjs/helper-flatten-ast@1.12.1':
+    dependencies:
+      '@webassemblyjs/ast': 1.12.1
+
+  '@webassemblyjs/helper-fsm@1.11.6': {}
+
   '@webassemblyjs/helper-numbers@1.11.6':
     dependencies:
       '@webassemblyjs/floating-point-hex-parser': 1.11.6
@@ -7791,6 +7833,10 @@ snapshots:
       '@xtuc/long': 4.2.2
 
   '@webassemblyjs/utf8@1.11.6': {}
+
+  '@webassemblyjs/validation@1.12.1':
+    dependencies:
+      '@webassemblyjs/ast': 1.12.1
 
   '@webassemblyjs/wasm-edit@1.12.1':
     dependencies:
@@ -7826,6 +7872,15 @@ snapshots:
       '@webassemblyjs/ieee754': 1.11.6
       '@webassemblyjs/leb128': 1.11.6
       '@webassemblyjs/utf8': 1.11.6
+
+  '@webassemblyjs/wast-parser@1.12.1':
+    dependencies:
+      '@webassemblyjs/ast': 1.12.1
+      '@webassemblyjs/floating-point-hex-parser': 1.11.6
+      '@webassemblyjs/helper-api-error': 1.11.6
+      '@webassemblyjs/helper-code-frame': 1.12.1
+      '@webassemblyjs/helper-fsm': 1.11.6
+      '@xtuc/long': 4.2.2
 
   '@webassemblyjs/wast-printer@1.12.1':
     dependencies:
@@ -12843,6 +12898,15 @@ snapshots:
       - utf-8-validate
 
   web-streams-polyfill@3.3.3: {}
+
+  webassemblyjs@1.12.1:
+    dependencies:
+      '@webassemblyjs/ast': 1.12.1
+      '@webassemblyjs/helper-compiler': 1.12.1
+      '@webassemblyjs/validation': 1.12.1
+      '@webassemblyjs/wasm-parser': 1.12.1
+      '@webassemblyjs/wast-parser': 1.12.1
+      '@xtuc/long': 4.2.2
 
   webextension-polyfill@0.12.0: {}
 
