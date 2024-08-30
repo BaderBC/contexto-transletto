@@ -1,0 +1,53 @@
+name: CI Tests
+
+defaults:
+ run:
+  working-directory: ./web-extension
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+        browser: [firefox, chrome]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.0.0
+        with:
+          version: 9
+
+      - name: Setup stable rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
+            override: true
+            components: rustfmt, clippy
+            target: wasm32-unknown-unknown
+
+      - name: Install dependencies
+        run: npm i -g pnpm
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Build project
+        run: pnpm app:${{ matrix.browser }}
+
+      # TODO: enable in the future
+      #- name: Check for vulnerabilities
+      #  run: pnpm audit --audit-level high
