@@ -9,9 +9,12 @@ import define from 'rollup-plugin-define';
 import { string } from 'rollup-plugin-string';
 import terser from '@rollup/plugin-terser';
 import mergeConfig from 'rollup-merge-config';
+import postcss from 'rollup-plugin-postcss';
+import css from 'rollup-plugin-css-only';
+import rust from '@wasm-tool/rollup-plugin-rust';
 
 const { parsed: dotEnvVariables } = dotenv.config();
-const browser = process.env.BROWSER || 'firefox';
+const browser = (process.env.BROWSER || 'firefox').toLowerCase();
 const isDevMode = (process.env.NODE_ENV || '').toLowerCase() !== 'production';
 
 const frontEndEnv = {
@@ -25,28 +28,49 @@ const commonRollupConfig = {
   output: {
     dir: './dist',
     format: 'iife',
+    sourcemap: isDevMode,
   },
   watch: {
-    exclude: 'node_modules/**',
+    exclude: [
+      'node_modules/**',
+      'dist/**',
+      'src/lib/rust-common-binding/common.d.ts',
+    ],
     include: [
-      'src/**',
-      'public/**',
+      'src/**/*',
+      'src/*',
+      'public/**/*',
+      'public/*',
       '.env',
     ],
   },
   plugins: [
+    rust({
+      inlineWasm: true,
+      experimental: {
+        directExports: true,
+        synchronous: true,
+        typescriptDeclarationDir: './src/lib/rust-common-binding',
+        transpileToJS: browser === 'chrome', // chrome has problem with inline wasm
+      },
+    }),
     define({
       replacements: {
+        // Brackets allows getting properties from object (e.g. process.env.NODE_ENV)
         'process.env': '(' + JSON.stringify(frontEndEnv) + ')',
       },
     }),
     string({
       include: '**/*.txt',
     }),
-    typescript(),
     commonjs(),
+    typescript({
+      moduleResolution: 'node',
+    }),
     resolve({
       browser: true,
+      dedupe: ['svelte'],
+      exportConditions: ['svelte'],
     }),
     svelte({
       emitCss: false,
@@ -54,6 +78,13 @@ const commonRollupConfig = {
         dev: isDevMode,
       },
       preprocess: sveltePreprocess(),
+    }),
+    postcss({
+      extract: false,
+      minimize: !isDevMode,
+    }),
+    css({
+      output: false,
     }),
     copy({
       targets: [

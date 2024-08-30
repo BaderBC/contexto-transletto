@@ -9,6 +9,9 @@
     "node_modules/*",
   ],
   "compilerOptions": {
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
     "rootDir": "src",
     "isolatedModules": false,
     "typeRoots": [
@@ -19,6 +22,11 @@
       "node",
       "svelte",
       "@testing-library/jest-dom"
-    ]
+    ],
+    "lib": ["ES2020", "ES2021.WeakRef", "DOM"],
+    "paths": {
+      "$lib": ["./src/lib/svelte"],
+      "$lib/*": ["./src/lib/svelte/*"]
+    }
   },
 }

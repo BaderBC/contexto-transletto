@@ -21,5 +21,5 @@ export async function fetchAuthorized<T>(endpoint: string, body?: Record<string,
     throw new Error(`Failed to fetch: ${res.status} ${await res.text()}`);
   }
 
-  return res.json();
+  return await res.json() as T;
 }

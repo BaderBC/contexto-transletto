@@ -3,6 +3,7 @@
 import { login } from './lib/auth';
 import browser from 'webextension-polyfill';
 import { fetchAuthorized } from './lib/background/fetchAuthorizedBackground';
+import { getSettings, removeKnownLanguage, upsertKnownLanguage } from './lib/background/settingsStorage';
 
 async function onContextMenuCreated() {
   if (browser.runtime.lastError) {
@@ -41,17 +42,32 @@ async function translateSelection(info: browser.Menus.OnClickData, tab: browser.
   });
 }
 
-browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+// eslint-disable-next-line
+browser.runtime.onMessage.addListener((message, sender, sendResponse: (res: any) => void) => {
   switch (message?.action) {
     case 'login':
-      // @ts-ignore
       login().then(sendResponse).catch(error => sendResponse({ error: error.toString() }));
       break;
     case 'fetchAuthorized':
       fetchAuthorized(message.endpoint, message.body, message.options)
         .then(sendResponse)
-        // @ts-ignore
         .catch(error => sendResponse({ error }));
+      break;
+    case 'settingsStorage.upsertKnownLanguage':
+      upsertKnownLanguage(message.name, message.level).then(sendResponse).catch(error => sendResponse({ error: error.toString() }));
+      break;
+    case 'settingsStorage.removeKnownLanguage':
+      removeKnownLanguage(message.name).then(sendResponse).catch(error => sendResponse({ error: error.toString() }));
+      break;
+    case 'settingsStorage.getSettings':
+      getSettings()
+        .then(res => 
+          // rxdb have a problem if we didn't clone the object
+          sendResponse(JSON.parse(JSON.stringify(res)))
+        )
+        .catch(error => 
+          sendResponse({ error: error.toString() })
+        );
       break;
   }
 

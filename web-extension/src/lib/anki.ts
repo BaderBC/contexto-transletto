@@ -1,8 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/ban-types
 import type { ContextoTranslettoSentence } from './translate';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function invoke(action, version, params = {}): Promise<Object> {
+export function invoke(action: string, version: number, params = {}): Promise<Object> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('error', () => reject('failed to issue request'));
