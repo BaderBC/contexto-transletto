@@ -40,9 +40,6 @@ jobs:
             target: wasm32-unknown-unknown
 
       - name: Install dependencies
-        run: npm i -g pnpm
-
-      - name: Install dependencies
         run: pnpm i
 
       - name: Build project

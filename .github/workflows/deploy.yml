@@ -19,6 +19,14 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.2
 
+      - name: Setup stable rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
+            override: true
+            components: rustfmt, clippy
+            target: wasm32-unknown-unknown
+
       - name: Create .env
         shell: bash
         env:
