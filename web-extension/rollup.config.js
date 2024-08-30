@@ -28,6 +28,7 @@ const commonRollupConfig = {
   output: {
     dir: './dist',
     format: 'iife',
+    sourcemap: isDevMode,
   },
   watch: {
     exclude: [
@@ -62,8 +63,10 @@ const commonRollupConfig = {
     string({
       include: '**/*.txt',
     }),
-    typescript(),
     commonjs(),
+    typescript({
+      moduleResolution: 'node',
+    }),
     resolve({
       browser: true,
       dedupe: ['svelte'],

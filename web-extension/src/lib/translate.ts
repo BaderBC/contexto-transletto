@@ -1,4 +1,4 @@
-import { FetchAuthorized } from './fetchAuthorized';
+import { FetchAuthorized } from '$lib/backgroundIntegration';
 
 export class ContextoTranslettoSentence {
   public readonly leftSide: string;

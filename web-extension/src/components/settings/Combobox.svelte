@@ -20,9 +20,9 @@
   export let items: ComboboxItem[];
   export let searchBarPlaceholder: string = undefined;
   export let defaultSelectedValue: string = 'Select an item...';
+  export let value = '';
 
   let open = false;
-  let value = '';
 
   $: selectedValue =
     items.find((f) => f.value === value)?.label || defaultSelectedValue;
